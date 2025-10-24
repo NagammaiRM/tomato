@@ -5,15 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Columbian Exchange: Tomato Globe</title>
   <style>
-    body { margin: 0; overflow: hidden; background-color: #f0f0f0; }
+    body { margin:0; overflow:hidden; background:#f0f0f0; }
     #info {
-      position: absolute;
-      top: 10px; left: 10px;
-      background: rgba(255,255,255,0.9);
-      padding: 10px;
-      border-radius: 8px;
-      max-width: 350px;
-      font-family: Arial, sans-serif;
+      position:absolute;
+      top:10px; left:10px;
+      background: rgba(255,255,255,0.95);
+      padding:15px;
+      border-radius:8px;
+      max-width:350px;
+      font-family:Arial, sans-serif;
+      line-height:1.4;
     }
   </style>
 </head>
@@ -37,10 +38,12 @@ const light = new THREE.DirectionalLight(0xffffff,1);
 light.position.set(5,3,5);
 scene.add(light);
 
+const infoBox = document.getElementById('info');
+
 const Globe = new ThreeGlobe()
-  .globeImageUrl('//unpkg.com/three-globe/example/img/earth-night.jpg')
+  .globeImageUrl('https://unpkg.com/three-globe/example/img/earth-dark.jpg')
   .pointsData([
-    { lat:-15.6, lng:-70.0, size:0.6, color:'red', name:'Andes Mountains, Peru', info:'Origin of wild tomato, domesticated in pre-Columbian Mexico' }
+    { lat:-15.6, lng:-70.0, size:0.6, color:'red', name:'Andes Mountains, Peru', info:'Origin of wild tomato, domesticated in pre-Columbian Mexico.<br><strong>Labor:</strong> Free farmers; small gardens<br><strong>Cultural:</strong> Starting point of tomato spread<br><strong>Environment:</strong> Minimal impact' }
   ])
   .pointLat('lat')
   .pointLng('lng')
@@ -48,45 +51,52 @@ const Globe = new ThreeGlobe()
   .pointAltitude(0.02)
   .pointRadius('size')
   .onPointClick(point=>{
-    document.getElementById('info').innerHTML=`<strong>${point.name}</strong><br>${point.info}`;
+    infoBox.innerHTML=`<strong>${point.name}</strong><br>${point.info}`;
   });
 
-// Spread locations with lines/arcs from origin
+scene.add(Globe);
+
+// Spread data with centuries for color-coding
 const flows = [
-  { startLat:-15.6, startLng:-70.0, endLat:19.4, endLng:-99.1, info:'Mexico – domesticated tomato, 1500s' },
-  { startLat:-15.6, startLng:-70.0, endLat:37.4, endLng:-5.9, info:'Spain (Seville), early 1500s' },
-  { startLat:-15.6, startLng:-70.0, endLat:40.8, endLng:14.2, info:'Italy (Naples/Genoa), 1520s–1530s, cooking & decoration' },
-  { startLat:-15.6, startLng:-70.0, endLat:48.9, endLng:2.4, info:'France, late 1500s' },
-  { startLat:-15.6, startLng:-70.0, endLat:51.5, endLng:-0.1, info:'England, late 1500s–early 1600s' },
-  { startLat:-15.6, startLng:-70.0, endLat:3.9, endLng:8.7, info:'West Africa (Ghana, Senegal, Nigeria), 16th–17th c.' },
-  { startLat:-15.6, startLng:-70.0, endLat:15.5, endLng:73.8, info:'India (Goa), 16th c.' },
-  { startLat:-15.6, startLng:-70.0, endLat:22.2, endLng:113.5, info:'China (Macao/Canton), 17th c.' },
-  { startLat:-15.6, startLng:-70.0, endLat:32.9, endLng:129.9, info:'Japan (Nagasaki), late 17th–18th c.' },
-  { startLat:-15.6, startLng:-70.0, endLat:20.0, endLng:-75.0, info:'Caribbean, 16th c.' },
-  { startLat:-15.6, startLng:-70.0, endLat:27.8, endLng:-82.6, info:'North America (Florida), 17th c.' },
-  { startLat:-15.6, startLng:-70.0, endLat:-12.9, endLng:-38.5, info:'Brazil (Salvador), 16th–17th c.' }
+  { startLat:-15.6, startLng:-70.0, endLat:19.4, endLng:-99.1, century:1500, info:'Mexico – domesticated tomato, small gardens, free labor, minimal environmental impact, cultural spread' },
+  { startLat:-15.6, startLng:-70.0, endLat:37.4, endLng:14.2, century:1500, info:'Italy – 1520s–1530s, cooking & decoration, free labor, minimal environmental impact' },
+  { startLat:-15.6, startLng:-70.0, endLat:48.9, endLng:2.4, century:1500, info:'France – late 1500s, grown in gardens, cultural impact: cuisine' },
+  { startLat:-15.6, startLng:-70.0, endLat:51.5, endLng:-0.1, century:1500, info:'England – late 1500s–early 1600s, gardens, soups/stews, improved nutrition' },
+  { startLat:-15.6, startLng:-70.0, endLat:3.9, endLng:8.7, century:1600, info:'West Africa – 16th–17th century, Portuguese trade, minimal environmental impact, cultural introduction' },
+  { startLat:-15.6, startLng:-70.0, endLat:15.5, endLng:73.8, century:1500, info:'India (Goa) – 16th century, Portuguese introduction, minimal impact' },
+  { startLat:-15.6, startLng:-70.0, endLat:22.2, endLng:113.5, century:1600, info:'China – 17th century, European trade, cultural introduction' },
+  { startLat:-15.6, startLng:-70.0, endLat:32.9, endLng:129.9, century:1700, info:'Japan – late 17th–18th century, Dutch trade, cultural introduction' },
+  { startLat:-15.6, startLng:-70.0, endLat:20.0, endLng:-75.0, century:1500, info:'Caribbean – 16th century, Spanish introduction, small gardens' },
+  { startLat:-15.6, startLng:-70.0, endLat:27.8, endLng:-82.6, century:1600, info:'North America – 17th century, European settlers, small-scale cultivation' },
+  { startLat:-15.6, startLng:-70.0, endLat:-12.9, endLng:-38.5, century:1600, info:'Brazil – 16th–17th century, Portuguese trade, gardens, minimal environmental impact' }
 ];
+
+// Map century to colors
+function centuryColor(century){
+  if(century===1500) return 'red';
+  if(century===1600) return 'blue';
+  if(century===1700) return 'green';
+  return 'gray';
+}
 
 Globe.arcsData(flows)
   .arcStartLat('startLat')
   .arcStartLng('startLng')
   .arcEndLat('endLat')
   .arcEndLng('endLng')
-  .arcColor(()=>'orange')
+  .arcColor(d=>centuryColor(d.century))
   .arcAltitude(0.2)
   .arcStroke(0.8)
   .onArcClick(arc=>{
-    document.getElementById('info').innerHTML=`<strong>Tomato Spread</strong><br>${arc.info}`;
+    infoBox.innerHTML=`<strong>Tomato Spread</strong><br>${arc.info}<br><strong>Century:</strong> ${arc.century}`;
   });
-
-scene.add(Globe);
 
 camera.position.z = 250;
 const controls = new THREE.OrbitControls(camera, renderer.domElement);
 controls.minDistance = 100;
 controls.maxDistance = 500;
 
-function animate() {
+function animate(){
   requestAnimationFrame(animate);
   Globe.rotation.y += 0.0005;
   renderer.render(scene,camera);
