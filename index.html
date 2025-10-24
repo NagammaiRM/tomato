@@ -72,10 +72,12 @@
             font-size: 0.95em;
         }
         
-      .map-wrapper {
+      map-wrapper {
     position: relative;
     width: 100%;
-    overflow: auto;
+    max-width: 1400px; /* optional, sets max width */
+    margin: 0 auto;     /* centers the SVG horizontally */
+    overflow: visible;  /* shows arrows if they go outside the map */
 }
         
         svg {
