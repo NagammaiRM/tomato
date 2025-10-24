@@ -12,9 +12,9 @@
         }
 
         svg {
-            display: block;  /* removes extra space below the SVG */
-            width: 100%;     /* fills the wrapper width */
-            height: auto;    /* keeps proportions */
+            display: block;  
+            width: 100%;     
+            height: auto;    
         }
         
         body {
@@ -81,14 +81,15 @@
        .map-wrapper {
             position: relative;
             width: 100%;
-            max-width: 1200px; /* Adjusted max-width for better fit */
+            max-width: 1200px;
             margin: 0 auto;
-            overflow: visible;
+            overflow: hidden; /* Hide overflow to ensure the smaller map fits */
         }
 
+        /* SVG is now controlled by the new viewBox (1000 x 550) */
         svg {
             display: block;
-            width: 100%;     /* Fills 100% of the wrapper's max-width */
+            width: 100%;
             height: auto;
             margin: 0 auto;
         }
@@ -290,11 +291,11 @@
                 </div>
                 
                 <div class="map-wrapper">
-                    <svg viewBox="0 0 1100 600" id="worldMap">
+                    <svg viewBox="0 0 1000 550" id="worldMap">
                         <image href="https://worksheets.clipart-library.com/images2/printable-world-map-flat/printable-world-map-flat-0.jpg"
-    x="-128" y="0"
-    width="1100" height="600"
-    preserveAspectRatio="xMidYMid meet"/>
+    x="-20" y="0"
+    width="1000" height="550"
+    preserveAspectRatio="none"/> 
                         
                         <defs>
                             <marker id="arrowhead-purple" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
@@ -311,100 +312,100 @@
                             </marker>
                         </defs>
                         
-                        <path class="arrow century-precolumbian" d="M 152,380 Q 132,320 112,280" marker-end="url(#arrowhead-purple)" />
+                        <path class="arrow century-precolumbian" d="M 180,390 Q 150,320 120,280" marker-end="url(#arrowhead-purple)" />
                         
-                        <path class="arrow century-1500s" d="M 127,275 Q 252,240 392,230" marker-end="url(#arrowhead-red)" />
+                        <path class="arrow century-1500s" d="M 130,280 Q 250,230 400,230" marker-end="url(#arrowhead-red)" />
                         
-                        <path class="arrow century-1500s" d="M 407,230 L 452,235" marker-end="url(#arrowhead-red)" />
+                        <path class="arrow century-1500s" d="M 415,230 L 450,235" marker-end="url(#arrowhead-red)" />
                         
-                        <path class="arrow century-1500s" d="M 447,230 Q 417,215 392,210" marker-end="url(#arrowhead-red)" />
+                        <path class="arrow century-1500s" d="M 445,230 Q 420,210 400,210" marker-end="url(#arrowhead-red)" />
                         
-                        <path class="arrow century-1600s" d="M 447,228 Q 412,200 382,195" marker-end="url(#arrowhead-blue)" />
+                        <path class="arrow century-1600s" d="M 445,225 Q 400,190 380,185" marker-end="url(#arrowhead-blue)" />
                         
-                        <path class="arrow century-1500s" d="M 450,232 Q 427,220 407,215" marker-end="url(#arrowhead-red)" />
+                        <path class="arrow century-1500s" d="M 450,230 Q 425,200 405,205" marker-end="url(#arrowhead-red)" />
                         
-                        <path class="arrow century-1500s" d="M 377,240 Q 252,260 172,285" marker-end="url(#arrowhead-red)" />
+                        <path class="arrow century-1500s" d="M 400,240 Q 280,260 190,290" marker-end="url(#arrowhead-red)" />
                         
-                        <path class="arrow century-1600s" d="M 392,245 Q 407,290 417,330" marker-end="url(#arrowhead-blue)" />
+                        <path class="arrow century-1600s" d="M 400,245 Q 420,300 430,340" marker-end="url(#arrowhead-blue)" />
                         
-                        <path class="arrow century-1500s" d="M 412,240 Q 552,280 652,310" marker-end="url(#arrowhead-red)" />
+                        <path class="arrow century-1500s" d="M 410,240 Q 560,280 670,305" marker-end="url(#arrowhead-red)" />
                         
-                        <path class="arrow century-1600s" d="M 462,235 Q 592,250 722,265" marker-end="url(#arrowhead-blue)" />
+                        <path class="arrow century-1600s" d="M 450,230 Q 600,240 730,260" marker-end="url(#arrowhead-blue)" />
                         
-                        <path class="arrow century-1700s" d="M 732,270 Q 792,260 852,255" marker-end="url(#arrowhead-green)" />
+                        <path class="arrow century-1700s" d="M 740,265 Q 800,250 870,245" marker-end="url(#arrowhead-green)" />
                         
-                        <path class="arrow century-1600s" d="M 387,225 Q 262,220 152,230" marker-end="url(#arrowhead-blue)" />
+                        <path class="arrow century-1600s" d="M 390,225 Q 260,210 140,220" marker-end="url(#arrowhead-blue)" />
                         
-                        <path class="arrow century-1600s" d="M 392,255 Q 282,340 172,380" marker-end="url(#arrowhead-blue)" />
+                        <path class="arrow century-1600s" d="M 400,260 Q 290,360 190,390" marker-end="url(#arrowhead-blue)" />
                         
                         <g class="marker" data-location="andes">
-                            <circle cx="152" cy="380" r="14" class="marker-circle origin-marker"/>
-                            <text x="152" y="400" text-anchor="middle" font-size="11" font-weight="bold" fill="#8B0000">Andes</text>
+                            <circle cx="180" cy="390" r="14" class="marker-circle origin-marker"/>
+                            <text x="180" y="410" text-anchor="middle" font-size="11" font-weight="bold" fill="#8B0000">Andes</text>
                         </g>
                         
                         <g class="marker" data-location="mesoamerica">
-                            <circle cx="112" cy="280" r="10" class="marker-circle"/>
-                            <text x="112" y="265" text-anchor="middle" font-size="10" fill="#1a1a1a">Mexico</text>
+                            <circle cx="120" cy="280" r="10" class="marker-circle"/>
+                            <text x="120" y="265" text-anchor="middle" font-size="10" fill="#1a1a1a">Mexico</text>
                         </g>
                         
                         <g class="marker" data-location="spain">
-                            <circle cx="392" cy="230" r="10" class="marker-circle"/>
-                            <text x="392" y="215" text-anchor="middle" font-size="10" fill="#1a1a1a">Spain</text>
+                            <circle cx="400" cy="230" r="10" class="marker-circle"/>
+                            <text x="400" y="215" text-anchor="middle" font-size="10" fill="#1a1a1a">Spain</text>
                         </g>
                         
                         <g class="marker" data-location="italy">
-                            <circle cx="457" cy="238" r="10" class="marker-circle"/>
-                            <text x="457" y="256" text-anchor="middle" font-size="10" fill="#1a1a1a">Italy</text>
+                            <circle cx="460" cy="238" r="10" class="marker-circle"/>
+                            <text x="460" y="256" text-anchor="middle" font-size="10" fill="#1a1a1a">Italy</text>
                         </g>
                         
                         <g class="marker" data-location="france">
-                            <circle cx="392" cy="210" r="9" class="marker-circle"/>
-                            <text x="392" y="198" text-anchor="middle" font-size="9" fill="#1a1a1a">France</text>
+                            <circle cx="400" cy="210" r="9" class="marker-circle"/>
+                            <text x="400" y="198" text-anchor="middle" font-size="9" fill="#1a1a1a">France</text>
                         </g>
                         
                         <g class="marker" data-location="england">
-                            <circle cx="382" cy="195" r="9" class="marker-circle"/>
-                            <text x="382" y="183" text-anchor="middle" font-size="9" fill="#1a1a1a">England</text>
+                            <circle cx="380" cy="185" r="9" class="marker-circle"/>
+                            <text x="380" y="173" text-anchor="middle" font-size="9" fill="#1a1a1a">England</text>
                         </g>
                         
                         <g class="marker" data-location="netherlands">
-                            <circle cx="407" cy="215" r="9" class="marker-circle"/>
-                            <text x="407" y="205" text-anchor="middle" font-size="9" fill="#1a1a1a">Netherlands</text>
+                            <circle cx="405" cy="205" r="9" class="marker-circle"/>
+                            <text x="405" y="193" text-anchor="middle" font-size="9" fill="#1a1a1a">Netherlands</text>
                         </g>
                         
                         <g class="marker" data-location="caribbean">
-                            <circle cx="172" cy="285" r="9" class="marker-circle"/>
-                            <text x="172" y="302" text-anchor="middle" font-size="9" fill="#1a1a1a">Caribbean</text>
+                            <circle cx="190" cy="290" r="9" class="marker-circle"/>
+                            <text x="190" y="307" text-anchor="middle" font-size="9" fill="#1a1a1a">Caribbean</text>
                         </g>
                         
                         <g class="marker" data-location="westafrica">
-                            <circle cx="417" cy="340" r="10" class="marker-circle"/>
-                            <text x="417" y="358" text-anchor="middle" font-size="10" fill="#1a1a1a">W. Africa</text>
+                            <circle cx="430" cy="340" r="10" class="marker-circle"/>
+                            <text x="430" y="358" text-anchor="middle" font-size="10" fill="#1a1a1a">W. Africa</text>
                         </g>
                         
                         <g class="marker" data-location="india">
-                            <circle cx="662" cy="315" r="10" class="marker-circle"/>
-                            <text x="662" y="300" text-anchor="middle" font-size="10" fill="#1a1a1a">India (Goa)</text>
+                            <circle cx="670" cy="305" r="10" class="marker-circle"/>
+                            <text x="670" y="290" text-anchor="middle" font-size="10" fill="#1a1a1a">India (Goa)</text>
                         </g>
                         
                         <g class="marker" data-location="china">
-                            <circle cx="732" cy="270" r="10" class="marker-circle"/>
-                            <text x="732" y="255" text-anchor="middle" font-size="10" fill="#1a1a1a">China</text>
+                            <circle cx="740" cy="265" r="10" class="marker-circle"/>
+                            <text x="740" y="250" text-anchor="middle" font-size="10" fill="#1a1a1a">China</text>
                         </g>
                         
                         <g class="marker" data-location="japan">
-                            <circle cx="862" cy="255" r="10" class="marker-circle"/>
-                            <text x="862" y="240" text-anchor="middle" font-size="10" fill="#1a1a1a">Japan</text>
+                            <circle cx="870" cy="245" r="10" class="marker-circle"/>
+                            <text x="870" y="230" text-anchor="middle" font-size="10" fill="#1a1a1a">Japan</text>
                         </g>
                         
                         <g class="marker" data-location="northamerica">
-                            <circle cx="142" cy="230" r="9" class="marker-circle"/>
-                            <text x="142" y="215" text-anchor="middle" font-size="9" fill="#1a1a1a">N. America</text>
+                            <circle cx="140" cy="220" r="9" class="marker-circle"/>
+                            <text x="140" y="205" text-anchor="middle" font-size="9" fill="#1a1a1a">N. America</text>
                         </g>
                         
                         <g class="marker" data-location="brazil">
-                            <circle cx="172" cy="380" r="10" class="marker-circle"/>
-                            <text x="172" y="398" text-anchor="middle" font-size="10" fill="#1a1a1a">Brazil</text>
+                            <circle cx="190" cy="390" r="10" class="marker-circle"/>
+                            <text x="190" y="408" text-anchor="middle" font-size="10" fill="#1a1a1a">Brazil</text>
                         </g>
                     </svg>
                 </div>
