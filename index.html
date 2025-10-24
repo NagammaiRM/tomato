@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Columbian Exchange: Tomato Globe</title>
+  <style>
+    body { margin: 0; overflow: hidden; background-color: #f0f0f0; }
+    #info {
+      position: absolute;
+      top: 10px; left: 10px;
+      background: rgba(255,255,255,0.9);
+      padding: 10px;
+      border-radius: 8px;
+      max-width: 350px;
+      font-family: Arial, sans-serif;
+    }
+  </style>
+</head>
+<body>
+<div id="info">Click a point or arrow to see details.</div>
+
+<script src="https://unpkg.com/three@0.154.0/build/three.min.js"></script>
+<script src="https://unpkg.com/three-globe"></script>
+<script src="https://unpkg.com/d3@7"></script>
+<script src="https://unpkg.com/topojson@3"></script>
+<script src="https://threejs.org/examples/js/controls/OrbitControls.js"></script>
+
+<script>
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 2000);
+const renderer = new THREE.WebGLRenderer({antialias:true});
+renderer.setSize(window.innerWidth, window.innerHeight);
+document.body.appendChild(renderer.domElement);
+
+const light = new THREE.DirectionalLight(0xffffff,1);
+light.position.set(5,3,5);
+scene.add(light);
+
+const Globe = new ThreeGlobe()
+  .globeImageUrl('//unpkg.com/three-globe/example/img/earth-night.jpg')
+  .pointsData([
+    { lat:-15.6, lng:-70.0, size:0.6, color:'red', name:'Andes Mountains, Peru', info:'Origin of wild tomato, domesticated in pre-Columbian Mexico' }
+  ])
+  .pointLat('lat')
+  .pointLng('lng')
+  .pointColor('color')
+  .pointAltitude(0.02)
+  .pointRadius('size')
+  .onPointClick(point=>{
+    document.getElementById('info').innerHTML=`<strong>${point.name}</strong><br>${point.info}`;
+  });
+
+// Spread locations with lines/arcs from origin
+const flows = [
+  { startLat:-15.6, startLng:-70.0, endLat:19.4, endLng:-99.1, info:'Mexico – domesticated tomato, 1500s' },
+  { startLat:-15.6, startLng:-70.0, endLat:37.4, endLng:-5.9, info:'Spain (Seville), early 1500s' },
+  { startLat:-15.6, startLng:-70.0, endLat:40.8, endLng:14.2, info:'Italy (Naples/Genoa), 1520s–1530s, cooking & decoration' },
+  { startLat:-15.6, startLng:-70.0, endLat:48.9, endLng:2.4, info:'France, late 1500s' },
+  { startLat:-15.6, startLng:-70.0, endLat:51.5, endLng:-0.1, info:'England, late 1500s–early 1600s' },
+  { startLat:-15.6, startLng:-70.0, endLat:3.9, endLng:8.7, info:'West Africa (Ghana, Senegal, Nigeria), 16th–17th c.' },
+  { startLat:-15.6, startLng:-70.0, endLat:15.5, endLng:73.8, info:'India (Goa), 16th c.' },
+  { startLat:-15.6, startLng:-70.0, endLat:22.2, endLng:113.5, info:'China (Macao/Canton), 17th c.' },
+  { startLat:-15.6, startLng:-70.0, endLat:32.9, endLng:129.9, info:'Japan (Nagasaki), late 17th–18th c.' },
+  { startLat:-15.6, startLng:-70.0, endLat:20.0, endLng:-75.0, info:'Caribbean, 16th c.' },
+  { startLat:-15.6, startLng:-70.0, endLat:27.8, endLng:-82.6, info:'North America (Florida), 17th c.' },
+  { startLat:-15.6, startLng:-70.0, endLat:-12.9, endLng:-38.5, info:'Brazil (Salvador), 16th–17th c.' }
+];
+
+Globe.arcsData(flows)
+  .arcStartLat('startLat')
+  .arcStartLng('startLng')
+  .arcEndLat('endLat')
+  .arcEndLng('endLng')
+  .arcColor(()=>'orange')
+  .arcAltitude(0.2)
+  .arcStroke(0.8)
+  .onArcClick(arc=>{
+    document.getElementById('info').innerHTML=`<strong>Tomato Spread</strong><br>${arc.info}`;
+  });
+
+scene.add(Globe);
+
+camera.position.z = 250;
+const controls = new THREE.OrbitControls(camera, renderer.domElement);
+controls.minDistance = 100;
+controls.maxDistance = 500;
+
+function animate() {
+  requestAnimationFrame(animate);
+  Globe.rotation.y += 0.0005;
+  renderer.render(scene,camera);
+}
+animate();
+
+window.addEventListener('resize', ()=>{
+  camera.aspect = window.innerWidth/window.innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(window.innerWidth, window.innerHeight);
+});
+</script>
+</body>
+</html>
