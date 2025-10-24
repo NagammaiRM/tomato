@@ -78,13 +78,20 @@
             font-size: 0.95em;
         }
         
-      .map-wrapper {
+     .map-wrapper {
     position: relative;
     width: 100%;
     max-width: 1400px;
-    margin: 0 auto;       /* centers by default */
-    margin-left: -50px;   /* shift map 50px to the left */
+    margin: 0 auto;
     overflow: visible;
+}
+
+svg {
+    display: block;
+    width: 1200px;      /* fixed width smaller than wrapper */
+    height: auto;
+    transform: translateX(-50px); /* shift left */
+    margin: 0 auto;      /* keep centered-ish */
 }
         
         svg {
