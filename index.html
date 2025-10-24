@@ -2,66 +2,86 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Tomato Globe Test</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Columbian Exchange: Tomatoes</title>
 <style>
-  body { margin:0; overflow:hidden; background:#000; }
-  #info { position:absolute; top:10px; left:10px; background:rgba(255,255,255,0.9); padding:10px; border-radius:5px; font-family:Arial; max-width:300px; }
+  body { font-family: Arial, sans-serif; text-align: center; background: #f0f0f0; margin: 0; padding: 0; }
+  h1 { margin-top: 20px; }
+  #mapContainer { position: relative; display: inline-block; margin: 20px auto; }
+  #info { position: absolute; top: 10px; left: 10px; background: rgba(255,255,255,0.95); padding: 10px; border-radius: 5px; width: 250px; text-align: left; font-size: 14px; }
+  .marker { position: absolute; width: 12px; height: 12px; border-radius: 50%; cursor: pointer; border: 2px solid black; }
+  .arrow { position: absolute; pointer-events: none; }
 </style>
 </head>
 <body>
-<div id="info">Click the red point to see info.</div>
 
-<script src="https://unpkg.com/three@0.154.0/build/three.min.js"></script>
-<script src="https://unpkg.com/three-globe"></script>
-<script src="https://threejs.org/examples/js/controls/OrbitControls.js"></script>
+<h1>Columbian Exchange: Tomatoes</h1>
+<div id="mapContainer">
+  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/80/World_map_-_low_resolution.svg/1200px-World_map_-_low_resolution.svg.png" alt="World Map" id="worldMap">
+  <div id="info">Click a marker to see details.</div>
+</div>
 
 <script>
-const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 2000);
-const renderer = new THREE.WebGLRenderer({antialias:true});
-renderer.setSize(window.innerWidth, window.innerHeight);
-document.body.appendChild(renderer.domElement);
+// Map image dimensions (adjust if using a different image)
+const mapWidth = 1200;
+const mapHeight = 600;
 
-const light = new THREE.DirectionalLight(0xffffff,1);
-light.position.set(5,3,5);
-scene.add(light);
-
+// Container and info div
+const container = document.getElementById('mapContainer');
 const infoBox = document.getElementById('info');
 
-const Globe = new ThreeGlobe()
-  .globeMaterial(new THREE.MeshStandardMaterial({color:0x123456})) // plain colored globe
-  .pointsData([
-    { lat:-15.6, lng:-70.0, size:0.6, color:'red', name:'Andes Mountains, Peru', info:'Origin of wild tomato, domesticated in pre-Columbian Mexico.' }
-  ])
-  .pointLat('lat')
-  .pointLng('lng')
-  .pointColor('color')
-  .pointAltitude(0.02)
-  .pointRadius('size')
-  .onPointClick(point=>{
-    infoBox.innerHTML=`<strong>${point.name}</strong><br>${point.info}`;
-  });
+// Define markers with x/y positions (percentage of width/height) and info
+const markers = [
+  { name:"Andes Mountains, Peru", x:0.23, y:0.70, color:"red", info:"Origin of wild tomato. Labor: free farmers; small gardens. Cultural: starting point. Environment: minimal impact." },
+  { name:"Mexico", x:0.28, y:0.63, color:"red", info:"Domesticated tomato. Labor: free farmers. Cultural: local cooking. Environment: small-scale." },
+  { name:"Spain", x:0.50, y:0.48, color:"red", info:"Introduced by Spanish explorers. Labor: small gardens. Cultural: culinary experimentation. Environment: minimal impact." },
+  { name:"Italy", x:0.54, y:0.50, color:"red", info:"1520s–1530s, tomato used in sauces and decorative gardens. Labor: free farmers. Cultural: Italian cuisine begins." },
+  { name:"France", x:0.57, y:0.48, color:"red", info:"Late 1500s, grown in gardens and for stews. Labor: free farmers. Cultural: European cuisine." },
+  { name:"England", x:0.60, y:0.45, color:"red", info:"Late 1500s–1600s, soups and stews. Labor: free farmers. Cultural: nutrition improvement." },
+  { name:"West Africa", x:0.48, y:0.60, color:"blue", info:"16th–17th century, Portuguese trade introduction. Labor: small plots. Cultural: local diet. Environment: minimal." },
+  { name:"India (Goa)", x:0.74, y:0.53, color:"red", info:"16th century, Portuguese introduction. Labor: small farms. Cultural: cooking. Environment: minimal." },
+  { name:"China", x:0.88, y:0.48, color:"blue", info:"17th century, European trade. Cultural: culinary adoption." },
+  { name:"Japan", x:0.92, y:0.46, color:"green", info:"Late 17th–18th century, Dutch trade. Cultural adoption." },
+  { name:"Caribbean", x:0.31, y:0.67, color:"red", info:"16th century, Spanish introduction. Small gardens, minimal impact." },
+  { name:"North America (Florida)", x:0.33, y:0.61, color:"blue", info:"17th century, European settlers. Small-scale cultivation." },
+  { name:"Brazil", x:0.35, y:0.73, color:"blue", info:"16th–17th century, Portuguese trade. Gardens, minimal environmental impact." }
+];
 
-scene.add(Globe);
+// Create marker elements
+markers.forEach(m => {
+  const el = document.createElement('div');
+  el.className = 'marker';
+  el.style.backgroundColor = m.color;
+  el.style.left = `calc(${m.x * 100}% - 6px)`;
+  el.style.top = `calc(${m.y * 100}% - 6px)`;
+  el.addEventListener('click', () => { infoBox.innerHTML = `<strong>${m.name}</strong><br>${m.info}`; });
+  container.appendChild(el);
+});
 
-camera.position.z = 200;
-
-const controls = new THREE.OrbitControls(camera, renderer.domElement);
-controls.minDistance = 50;
-controls.maxDistance = 500;
-
-function animate() {
-  requestAnimationFrame(animate);
-  Globe.rotation.y += 0.001;
-  renderer.render(scene,camera);
-}
-animate();
-
-window.addEventListener('resize', ()=>{
-  camera.aspect = window.innerWidth/window.innerHeight;
-  camera.updateProjectionMatrix();
-  renderer.setSize(window.innerWidth, window.innerHeight);
+// Optional: draw simple arrows between origin and spread points
+// Only works with basic divs/lines
+markers.forEach(m => {
+  if(m.name !== "Andes Mountains, Peru") {
+    const line = document.createElement('div');
+    line.className = 'arrow';
+    const startX = 0.23 * mapWidth;
+    const startY = 0.70 * mapHeight;
+    const endX = m.x * mapWidth;
+    const endY = m.y * mapHeight;
+    const length = Math.hypot(endX-startX, endY-startY);
+    line.style.width = `${length}px`;
+    line.style.height = '2px';
+    line.style.backgroundColor = m.color;
+    line.style.position = 'absolute';
+    line.style.left = `${startX}px`;
+    line.style.top = `${startY}px`;
+    const angle = Math.atan2(endY-startY, endX-startX) * (180/Math.PI);
+    line.style.transformOrigin = '0 0';
+    line.style.transform = `rotate(${angle}deg)`;
+    container.appendChild(line);
+  }
 });
 </script>
+
 </body>
 </html>
