@@ -284,7 +284,7 @@
                 <div class="map-wrapper">
                     <svg viewBox="0 0 1200 600" id="worldMap">
                         <!-- Background world map image -->
-                        <image href="https://imgur.com/a/k9edwtY" width="1200" height="600" preserveAspectRatio="xMidYMid slice"/>
+                        <image href="https://i.imgur.com/zKL4YqH.jpg" width="1200" height="600" preserveAspectRatio="xMidYMid slice"/>
                         
                         <!-- Arrow markers -->
                         <defs>
@@ -457,13 +457,7 @@
             <div class="info-panel" id="infoPanel">
                 <div class="default-info">
                     <h2>👆 Click a Location</h2>
-                    <p>Select any marker on the map to discover how tomatoes arrived in that region and learn about:</p>
-                    <ul style="text-align: left; margin-top: 15px; margin-left: 30px;">
-                        <li>Time period of arrival</li>
-                        <li>Labor practices used</li>
-                        <li>Cultural integration</li>
-                        <li>Environmental impacts</li>
-                    </ul>
+                    <p>Select any marker on the map to discover when tomatoes arrived and their impact on that region.</p>
                 </div>
             </div>
         </div>
@@ -506,116 +500,74 @@
     <script>
         const locations = {
             andes: {
-                name: "Andes Mountains (Peru/Ecuador)",
-                date: "Pre-Columbian Origin",
-                labor: "Domestication of wild tomatoes by indigenous peoples using traditional, communal agricultural practices. Entirely free labor by local communities who developed sophisticated farming techniques over millennia.",
-                cultural: "The tomato was first domesticated in this region thousands of years ago. Indigenous peoples cultivated tomatoes in small gardens, integrating them into local cuisine and culture. This was the birthplace of the cultivated tomato as we know it today.",
-                environmental: "Minimal environmental impact. Tomatoes were native to the region and indigenous farming practices were sustainable, working in harmony with the local Andean ecosystem and diverse microclimates.",
-                century: "origin"
+                name: "Andes Mountains (Peru/Ecuador) → Mesoamerica (Mexico)",
+                date: "Pre-Columbian (before 1500s)",
+                impact: "Domestication of wild tomatoes; grown by Native Americans in small gardens; free labor; minimal environmental impact; cultural use for local cuisine."
             },
             mesoamerica: {
-                name: "Mesoamerica (Mexico)",
-                date: "Pre-Columbian (Before 1500s)",
-                labor: "Grown by Native Americans in small gardens using free labor. Indigenous agricultural systems integrated tomatoes into milpa farming alongside corn, beans, and squash.",
-                cultural: "Tomatoes became essential to Mesoamerican cuisine. The Aztecs called them 'tomatl' and used them extensively in sauces and cooking. They were a staple food with deep cultural significance in local diets and traditions.",
-                environmental: "Minimal environmental impact. Tomatoes were cultivated sustainably using traditional indigenous farming methods that maintained soil health and biodiversity.",
-                century: "precolumbian"
+                name: "Mesoamerica (Mexico) → Spain (Seville)",
+                date: "Early 1500s",
+                impact: "Introduced by Spanish explorers; grown initially as ornamental or experimental food; free labor in small gardens; minor environmental impact; cultural: slowly integrated into European diets."
             },
             spain: {
-                name: "Spain (Seville)",
-                date: "Early 1500s",
-                labor: "Introduced by Spanish explorers and conquistadors. Initially grown as ornamental or experimental plants in gardens using free labor. Small-scale cultivation by gardeners and on estates.",
-                cultural: "Met with initial suspicion due to resemblance to poisonous nightshade plants. Slowly integrated into European diets over time. Eventually became fundamental to Spanish cuisine, including dishes like gazpacho.",
-                environmental: "Minor environmental impact. Introduced as a new crop species but grown in small quantities initially. Required adaptation to Mediterranean climate with some irrigation needs.",
-                century: "1500s"
+                name: "Spain (Seville) → Italy (Naples, Genoa)",
+                date: "1520s–1530s",
+                impact: "Italians experimented with tomatoes in gardens and early cooking; free labor; minor environmental impact; cultural: began using in sauces and decorative purposes."
             },
             italy: {
-                name: "Italy (Naples, Genoa)",
-                date: "1520s-1530s",
-                labor: "Italians experimented with tomatoes in gardens and early cooking. Free labor predominantly used by small farmers and gardeners. Mixed cultivation on peasant farms and estates.",
-                cultural: "Italians were among the first Europeans to fully embrace tomatoes. Began using them in sauces and for decorative purposes. By the 1600s, tomatoes became integral to Italian cuisine, leading to iconic dishes like pasta pomodoro and pizza.",
-                environmental: "Minor environmental impact. Tomatoes adapted well to Southern Italian climate. Became part of crop rotation, helping maintain soil health. Different regional varieties developed (Roma, San Marzano).",
-                century: "1500s"
+                name: "Italy (Naples, Genoa) → France / England / Netherlands",
+                date: "Late 1500s – early 1600s",
+                impact: "Garden cultivation; free labor; cultural: added to European cuisine, soups, and stews; minimal environmental impact. Initially ornamental in England; adopted for culinary experimentation in Netherlands."
             },
             france: {
-                name: "France (Paris, South France)",
+                name: "Italy (Naples, Genoa) → France (Paris, South France)",
                 date: "Late 1500s",
-                labor: "Garden cultivation using free labor. Grown by farmers and in estate gardens. Small-scale production focused on experimentation with the new crop.",
-                cultural: "Added to European cuisine gradually. Initially viewed with suspicion but eventually incorporated into soups and stews. Became part of French culinary tradition over subsequent centuries.",
-                environmental: "Minimal environmental impact. Grown in small quantities in gardens. Adapted to French climate, particularly in southern regions where conditions were more favorable.",
-                century: "1500s"
+                impact: "Garden cultivation; free labor; cultural: added to European cuisine, soups, and stews; minimal environmental impact."
             },
             england: {
-                name: "England (London, South England)",
-                date: "Late 1500s - Early 1600s",
-                labor: "Introduced in gardens primarily as ornamental plants. Free labor by gardeners and estate workers. Very limited agricultural cultivation initially.",
-                cultural: "Initially grown as decorative plants due to suspicion about edibility. Eventually used in soups and stews. English adoption was slower than in Mediterranean countries. Improved nutrition slightly when finally accepted.",
-                environmental: "Minimal environmental impact. Grown mainly in protected gardens. English climate was less ideal than Mediterranean regions, limiting early cultivation success.",
-                century: "1600s"
+                name: "Italy (Naples, Genoa) → England (London, South England)",
+                date: "Late 1500s – early 1600s",
+                impact: "Introduced in gardens; initially ornamental; free labor; cultural: eventually used in soups and stews; nutrition improved slightly; minimal environmental impact."
             },
             netherlands: {
-                name: "Netherlands (Amsterdam)",
-                date: "Late 16th Century",
-                labor: "Grown in gardens using free labor. Dutch horticulturists and gardeners cultivated tomatoes as part of botanical experimentation and trade networks.",
-                cultural: "Adopted for culinary experimentation. The Dutch, as major trading power, played a role in spreading tomatoes to other regions. Gradually integrated into local cooking traditions.",
-                environmental: "Minimal environmental impact. Grown in controlled garden settings. Dutch greenhouse techniques later helped tomato cultivation in northern climates.",
-                century: "1500s"
+                name: "Italy (Naples, Genoa) → Netherlands (Amsterdam)",
+                date: "Late 16th century",
+                impact: "Grown in gardens; free labor; cultural: adopted for culinary experimentation; minimal environmental impact."
             },
             caribbean: {
-                name: "Caribbean (Cuba, Puerto Rico, Hispaniola)",
-                date: "16th Century",
-                labor: "Cultivated in small gardens on plantations. Initially used mostly free or indigenous labor, though plantation systems increasingly relied on enslaved labor for major crops (tomatoes remained secondary).",
-                cultural: "Used in local dishes, blending Spanish colonial and indigenous cooking traditions. Became part of Caribbean cuisine, though not as central as in European traditions.",
-                environmental: "Minor impact. Increased crop diversity on islands. Grown alongside other colonial crops, contributing to changed agricultural landscapes from indigenous systems.",
-                century: "1500s"
+                name: "Spain/Portugal → Caribbean (Cuba, Puerto Rico, Hispaniola)",
+                date: "16th century",
+                impact: "Cultivated in small gardens on plantations; mostly free or indigenous labor at first; cultural: used in local dishes; environmental: minor impact, increased crop diversity."
             },
             westafrica: {
-                name: "West Africa (Ghana, Senegal, Nigeria)",
-                date: "16th-17th Century",
-                labor: "Brought by Portuguese traders. Grown in small plots by local free farmers using traditional agricultural methods. Not part of large plantation systems.",
-                cultural: "Quickly integrated into local West African cuisine, becoming essential in stews, sauces, and regional dishes. Tomatoes complemented existing cooking traditions and became a staple ingredient.",
-                environmental: "Minimal impact. Grown by local farmers in small plots. Added diversity to West African agriculture without major disruption to existing farming systems.",
-                century: "1600s"
+                name: "Spain/Portugal → West Africa (coastal Ghana, Senegal, Nigeria)",
+                date: "16th–17th century",
+                impact: "Brought by Portuguese traders; grown in small plots; labor: local free farmers; cultural: integrated into local cuisine; environmental impact minimal."
             },
             india: {
-                name: "India (Goa)",
-                date: "16th Century",
-                labor: "Introduced by Portuguese traders through Goa. Cultivated in gardens using free labor. Small-scale farming by local farmers and in colonial settlements.",
-                cultural: "Rapidly adopted and integrated into Indian cooking. Became essential in curries, chutneys, and vegetable dishes. The Hindi word 'tamatar' derives from Spanish 'tomate.' Now indispensable in Indian cuisine across all regions.",
-                environmental: "Minimal environmental impact. Thrived in diverse Indian climates. Fit well into existing agricultural systems. Monsoon rains provided natural irrigation in many areas.",
-                century: "1500s"
+                name: "Portugal → India (Goa)",
+                date: "16th century",
+                impact: "Introduced by Portuguese traders; cultivated in gardens; free labor; cultural: used in Indian cooking; environmental impact minimal."
             },
             china: {
-                name: "China (Macau, Canton)",
-                date: "17th Century",
-                labor: "Brought via European trade routes (Portuguese and Dutch). Small-scale cultivation using free labor by peasant farmers on family plots.",
-                cultural: "Initial adoption was slow but gradually tomatoes were incorporated into Chinese cuisine, particularly in southern provinces. Used in stir-fries, soups, and sauces. Became more popular in modern times.",
-                environmental: "Negligible environmental impact initially. Grown in small quantities. Adapted to various Chinese climates from subtropical south to temperate regions over time.",
-                century: "1600s"
+                name: "Portugal/Netherlands → China (Macau, Canton)",
+                date: "17th century",
+                impact: "Brought via European trade; small-scale cultivation; free labor; cultural: used in regional cuisine; environmental impact negligible."
             },
             japan: {
-                name: "Japan (Nagasaki)",
-                date: "Late 17th - 18th Century",
-                labor: "Introduced through Dutch East India Company at Nagasaki, Japan's only port open to foreign trade. Grown in small gardens using free labor.",
-                cultural: "Gradual adoption into Japanese cooking. Initially exotic and rare. Eventually incorporated into Japanese cuisine, though integration was slower than in other regions due to limited foreign contact during isolation period.",
-                environmental: "Minimal environmental impact. Grown in small quantities in controlled settings. Adapted to Japanese climate and farming practices over time.",
-                century: "1700s"
+                name: "Netherlands → Japan (Nagasaki)",
+                date: "Late 17th–18th century",
+                impact: "Introduced through Dutch East India Company; small gardens; free labor; cultural: gradually used in cooking; minimal environmental impact."
             },
             northamerica: {
-                name: "North America (Florida, Southern Colonies)",
-                date: "17th Century",
-                labor: "Cultivated in gardens by settlers using free labor. Small-scale production, primarily for personal consumption rather than commercial agriculture.",
-                cultural: "Added to colonial diets gradually. Integration was slow due to European suspicions about tomato safety. Eventually became important in American cuisine, particularly in southern cooking traditions.",
-                environmental: "Minimal environmental impact. Grown in small garden plots. Well-suited to warm southern climates. Became more important crop in later centuries.",
-                century: "1600s"
+                name: "Spain/Portugal → North America (Southern colonies: Florida, Mexico)",
+                date: "17th century",
+                impact: "Cultivated in gardens by settlers; free labor; cultural: added to colonial diets; environmental impact minimal."
             },
             brazil: {
-                name: "Brazil (Salvador, Recife)",
-                date: "16th-17th Century",
-                labor: "Brought by Portuguese traders and colonists. Grown in gardens using free or smallholder labor. Not a major plantation crop like sugar, so less connected to enslaved labor systems.",
-                cultural: "Integrated into local cooking, blending Portuguese and indigenous Brazilian traditions. Became part of Brazilian cuisine, though less central than in some other regions.",
-                environmental: "Minor environmental impact. Grown in small plots and gardens. Added diversity to Brazilian agriculture. Adapted well to tropical and subtropical Brazilian climates.",
-                century: "1600s"
+                name: "Portugal → Brazil (Salvador, Recife)",
+                date: "16th–17th century",
+                impact: "Brought by Portuguese traders; grown in gardens; free or smallholder labor; cultural: integrated into local cooking; environmental impact minor."
             }
         };
         
@@ -632,18 +584,8 @@
                     <p class="info-date">📅 ${data.date}</p>
                     
                     <div class="info-section">
-                        <h3>👷 Labor Practices</h3>
-                        <p>${data.labor}</p>
-                    </div>
-                    
-                    <div class="info-section">
-                        <h3>🎭 Cultural Impact</h3>
-                        <p>${data.cultural}</p>
-                    </div>
-                    
-                    <div class="info-section">
-                        <h3>🌍 Environmental Impact</h3>
-                        <p>${data.environmental}</p>
+                        <h3>Impact</h3>
+                        <p>${data.impact}</p>
                     </div>
                 `;
                 
