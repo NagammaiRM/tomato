@@ -12,10 +12,10 @@
         }
 
         svg {
-    display: block;  /* removes extra space below the SVG */
-    width: 100%;     /* fills the wrapper width */
-    height: auto;    /* keeps proportions */
-}
+            display: block;  /* removes extra space below the SVG */
+            width: 100%;     /* fills the wrapper width */
+            height: auto;    /* keeps proportions */
+        }
         
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -79,21 +79,18 @@
         }
         
        .map-wrapper {
-    position: relative;
-    width: 100%;
-    max-width: 1400px;
-    margin: 0 auto;
-    overflow: visible;
-}
+            position: relative;
+            width: 100%;
+            max-width: 1200px; /* Adjusted max-width for better fit */
+            margin: 0 auto;
+            overflow: visible;
+        }
 
-svg {
-    display: block;
-    width: 1200px;     /* fixed width smaller than wrapper */
-    height: auto;
-    margin: 0 auto;       /* keep centered-ish */
-}
-        
-        
+        svg {
+            display: block;
+            width: 100%;     /* Fills 100% of the wrapper's max-width */
+            height: auto;
+            margin: 0 auto;
         }
         
         .marker {
@@ -293,10 +290,10 @@ svg {
                 </div>
                 
                 <div class="map-wrapper">
-                    <svg viewBox="0 0 1200 600" id="worldMap">
+                    <svg viewBox="0 0 1100 600" id="worldMap">
                         <image href="https://worksheets.clipart-library.com/images2/printable-world-map-flat/printable-world-map-flat-0.jpg"
     x="-128" y="0"
-    width="1200" height="600"
+    width="1100" height="600"
     preserveAspectRatio="xMidYMid meet"/>
                         
                         <defs>
