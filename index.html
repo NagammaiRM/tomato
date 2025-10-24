@@ -19,7 +19,7 @@
         }
         
         .container {
-            max-width: 1400px;
+            max-width: 1600px;
             margin: 0 auto;
             padding: 20px;
         }
@@ -42,7 +42,7 @@
         .intro {
             font-size: 1.1em;
             text-align: center;
-            max-width: 800px;
+            max-width: 900px;
             margin: 0 auto;
             color: #555;
         }
@@ -55,7 +55,7 @@
         
         .map-container {
             flex: 1;
-            min-width: 600px;
+            min-width: 700px;
             background: white;
             padding: 20px;
             border-radius: 15px;
@@ -82,15 +82,11 @@
             width: 100%;
             height: auto;
             display: block;
+            min-height: 500px;
         }
         
         .marker {
             cursor: pointer;
-            transition: transform 0.2s;
-        }
-        
-        .marker:hover {
-            transform: scale(1.2);
         }
         
         .marker-circle {
@@ -103,13 +99,19 @@
             fill: #ffd700;
             stroke: #ff6b6b;
             stroke-width: 3;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
         }
         
         .arrow {
             fill: none;
-            stroke-width: 3;
-            opacity: 0.7;
-            transition: opacity 0.2s;
+            stroke-width: 2.5;
+            opacity: 0.6;
+            transition: opacity 0.3s, stroke-width 0.3s;
         }
         
         .arrow:hover {
@@ -117,24 +119,32 @@
             stroke-width: 4;
         }
         
+        .century-precolumbian { stroke: #9c36b5; stroke-dasharray: 5,5; }
         .century-1500s { stroke: #e03131; }
         .century-1600s { stroke: #1971c2; }
         .century-1700s { stroke: #2f9e44; }
         
         .info-panel {
-            flex: 0 0 350px;
+            flex: 0 0 380px;
             background: white;
             padding: 25px;
             border-radius: 15px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            max-height: 700px;
+            max-height: 750px;
             overflow-y: auto;
         }
         
         .info-panel h2 {
             color: #c92a2a;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
             font-size: 1.5em;
+        }
+        
+        .info-date {
+            color: #868e96;
+            font-weight: bold;
+            margin-bottom: 15px;
+            font-size: 0.95em;
         }
         
         .info-section {
@@ -150,12 +160,12 @@
         .info-section h3 {
             color: #495057;
             margin-bottom: 8px;
-            font-size: 1.1em;
+            font-size: 1.05em;
         }
         
         .info-section p {
             color: #666;
-            font-size: 0.95em;
+            font-size: 0.93em;
         }
         
         .legend {
@@ -175,7 +185,7 @@
             display: flex;
             align-items: center;
             margin-bottom: 8px;
-            font-size: 0.9em;
+            font-size: 0.88em;
         }
         
         .legend-color {
@@ -183,6 +193,16 @@
             height: 3px;
             margin-right: 10px;
             border-radius: 2px;
+        }
+        
+        .legend-dashed {
+            background: repeating-linear-gradient(
+                90deg,
+                #9c36b5,
+                #9c36b5 5px,
+                transparent 5px,
+                transparent 10px
+            );
         }
         
         .default-info {
@@ -197,6 +217,7 @@
             border-radius: 15px;
             margin-top: 20px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            width: 100%;
         }
         
         .timeline h2 {
@@ -210,8 +231,10 @@
             border-left: 4px solid #e9ecef;
             background: #f8f9fa;
             border-radius: 4px;
+            font-size: 0.92em;
         }
         
+        .timeline-precolumbian { border-left-color: #9c36b5; }
         .timeline-1500s { border-left-color: #e03131; }
         .timeline-1600s { border-left-color: #1971c2; }
         .timeline-1700s { border-left-color: #2f9e44; }
@@ -221,7 +244,7 @@
             color: #495057;
         }
         
-        @media (max-width: 1024px) {
+        @media (max-width: 1200px) {
             .main-content {
                 flex-direction: column;
             }
@@ -232,6 +255,7 @@
             
             .info-panel {
                 flex: 1;
+                max-width: 100%;
             }
         }
     </style>
@@ -241,47 +265,32 @@
         <header>
             <h1>🍅 The Columbian Exchange: Tomatoes</h1>
             <p class="intro">
-                The tomato, originally domesticated in the Andes Mountains of Peru and Mexico, became one of the most 
-                important crops exchanged during the Columbian Exchange. After Spanish conquistadors encountered this 
-                vibrant fruit in the 16th century, it spread across Europe, Asia, and Africa, transforming cuisines 
-                and agriculture worldwide. Today, tomatoes are integral to Italian, Spanish, Indian, and countless 
-                other culinary traditions.
+                The tomato's journey from the Andes Mountains to tables worldwide is one of history's most remarkable 
+                agricultural exchanges. Originally domesticated in Peru and Ecuador, tomatoes traveled to Mesoamerica 
+                before Spanish conquistadors brought them to Europe in the early 1500s. From there, they spread across 
+                continents through trade routes, transforming global cuisine and becoming essential to Italian pasta 
+                sauces, Indian curries, and countless other dishes.
             </p>
         </header>
         
         <div class="main-content">
             <div class="map-container">
                 <div class="instructions">
-                    <strong>Instructions:</strong> Click on any marker to learn about labor practices, cultural impacts, 
-                    and environmental effects in that region. Arrows are color-coded by century of arrival.
+                    <strong>📍 Instructions:</strong> Click on any location marker to learn about the tomato's arrival, 
+                    labor practices, cultural integration, and environmental impacts. Colored arrows show the routes and 
+                    time periods of spread.
                 </div>
                 
                 <div class="map-wrapper">
-                    <svg viewBox="0 0 1000 500" id="worldMap">
-                        <!-- Ocean background -->
-                        <rect width="1000" height="500" fill="#e7f5fe"/>
+                    <svg viewBox="0 0 1200 600" id="worldMap">
+                        <!-- Background world map image -->
+                        <image href="https://i.imgur.com/zKL4YqH.png" width="1200" height="600" preserveAspectRatio="xMidYMid slice"/>
                         
-                        <!-- Simplified continents -->
-                        <!-- North America -->
-                        <path d="M 50,80 L 150,60 L 200,70 L 250,90 L 280,120 L 270,180 L 240,200 L 200,210 L 160,200 L 120,180 L 80,140 Z" fill="#d4e9d7" stroke="#74c0fc" stroke-width="1"/>
-                        
-                        <!-- South America -->
-                        <path d="M 200,240 L 240,250 L 260,280 L 270,320 L 260,360 L 240,380 L 220,370 L 210,340 L 200,300 L 190,260 Z" fill="#d4e9d7" stroke="#74c0fc" stroke-width="1"/>
-                        
-                        <!-- Europe -->
-                        <path d="M 450,90 L 520,80 L 560,95 L 550,130 L 520,140 L 480,135 L 460,115 Z" fill="#d4e9d7" stroke="#74c0fc" stroke-width="1"/>
-                        
-                        <!-- Africa -->
-                        <path d="M 480,160 L 530,155 L 560,180 L 570,230 L 560,280 L 530,310 L 500,300 L 480,270 L 470,220 L 475,180 Z" fill="#d4e9d7" stroke="#74c0fc" stroke-width="1"/>
-                        
-                        <!-- Asia -->
-                        <path d="M 600,80 L 700,70 L 800,85 L 850,110 L 860,150 L 840,180 L 780,190 L 720,180 L 680,160 L 650,140 L 620,110 Z" fill="#d4e9d7" stroke="#74c0fc" stroke-width="1"/>
-                        
-                        <!-- India subcontinent -->
-                        <path d="M 680,180 L 720,185 L 730,220 L 720,250 L 690,240 L 680,210 Z" fill="#d4e9d7" stroke="#74c0fc" stroke-width="1"/>
-                        
-                        <!-- Arrows showing spread (will be added dynamically) -->
+                        <!-- Arrow markers -->
                         <defs>
+                            <marker id="arrowhead-purple" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+                                <polygon points="0 0, 10 3, 0 6" fill="#9c36b5" />
+                            </marker>
                             <marker id="arrowhead-red" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
                                 <polygon points="0 0, 10 3, 0 6" fill="#e03131" />
                             </marker>
@@ -293,152 +302,320 @@
                             </marker>
                         </defs>
                         
-                        <!-- Spread arrows -->
-                        <path class="arrow century-1500s" d="M 230,290 Q 350,200 490,120" marker-end="url(#arrowhead-red)" />
-                        <path class="arrow century-1500s" d="M 490,120 Q 580,140 700,150" marker-end="url(#arrowhead-red)" />
-                        <path class="arrow century-1600s" d="M 490,120 Q 510,180 520,220" marker-end="url(#arrowhead-blue)" />
-                        <path class="arrow century-1700s" d="M 700,150 Q 710,170 700,210" marker-end="url(#arrowhead-green)" />
+                        <!-- Routes -->
+                        <!-- Pre-Columbian: Andes to Mesoamerica -->
+                        <path class="arrow century-precolumbian" d="M 280,380 Q 260,320 240,280" marker-end="url(#arrowhead-purple)" />
                         
-                        <!-- Markers -->
-                        <!-- Origin: Andes/Peru -->
-                        <g class="marker" data-location="origin">
-                            <circle cx="230" cy="290" r="12" class="marker-circle origin-marker"/>
-                            <text x="230" y="310" text-anchor="middle" font-size="12" fill="#333">Peru/Andes</text>
+                        <!-- 1500s: Mesoamerica to Spain -->
+                        <path class="arrow century-1500s" d="M 255,275 Q 380,240 520,230" marker-end="url(#arrowhead-red)" />
+                        
+                        <!-- 1500s: Spain to Italy -->
+                        <path class="arrow century-1500s" d="M 535,230 L 580,235" marker-end="url(#arrowhead-red)" />
+                        
+                        <!-- Late 1500s: Italy to France -->
+                        <path class="arrow century-1500s" d="M 575,230 Q 545,215 520,210" marker-end="url(#arrowhead-red)" />
+                        
+                        <!-- Late 1500s-Early 1600s: Italy to England -->
+                        <path class="arrow century-1600s" d="M 575,228 Q 540,200 510,195" marker-end="url(#arrowhead-blue)" />
+                        
+                        <!-- Late 1500s: Italy to Netherlands -->
+                        <path class="arrow century-1500s" d="M 578,232 Q 555,220 535,215" marker-end="url(#arrowhead-red)" />
+                        
+                        <!-- 1500s: Spain/Portugal to Caribbean -->
+                        <path class="arrow century-1500s" d="M 505,240 Q 380,260 300,285" marker-end="url(#arrowhead-red)" />
+                        
+                        <!-- 1500s-1600s: Spain/Portugal to West Africa -->
+                        <path class="arrow century-1600s" d="M 520,245 Q 535,290 545,330" marker-end="url(#arrowhead-blue)" />
+                        
+                        <!-- 1500s: Portugal to India -->
+                        <path class="arrow century-1500s" d="M 540,240 Q 680,280 780,310" marker-end="url(#arrowhead-red)" />
+                        
+                        <!-- 1600s: Portugal/Netherlands to China -->
+                        <path class="arrow century-1600s" d="M 590,235 Q 720,250 850,265" marker-end="url(#arrowhead-blue)" />
+                        
+                        <!-- 1600s-1700s: Netherlands to Japan -->
+                        <path class="arrow century-1700s" d="M 860,270 Q 920,260 980,255" marker-end="url(#arrowhead-green)" />
+                        
+                        <!-- 1600s: Spain to North America -->
+                        <path class="arrow century-1600s" d="M 515,225 Q 390,220 280,230" marker-end="url(#arrowhead-blue)" />
+                        
+                        <!-- 1500s-1600s: Portugal to Brazil -->
+                        <path class="arrow century-1600s" d="M 520,255 Q 410,340 300,380" marker-end="url(#arrowhead-blue)" />
+                        
+                        <!-- Location Markers -->
+                        <!-- Andes (Origin) -->
+                        <g class="marker" data-location="andes">
+                            <circle cx="280" cy="380" r="14" class="marker-circle origin-marker"/>
+                            <text x="280" y="400" text-anchor="middle" font-size="11" font-weight="bold" fill="#8B0000">Andes</text>
+                        </g>
+                        
+                        <!-- Mesoamerica -->
+                        <g class="marker" data-location="mesoamerica">
+                            <circle cx="240" cy="280" r="10" class="marker-circle"/>
+                            <text x="240" y="265" text-anchor="middle" font-size="10" fill="#1a1a1a">Mexico</text>
                         </g>
                         
                         <!-- Spain -->
                         <g class="marker" data-location="spain">
-                            <circle cx="490" cy="120" r="10" class="marker-circle"/>
-                            <text x="490" y="105" text-anchor="middle" font-size="11" fill="#333">Spain</text>
+                            <circle cx="520" cy="230" r="10" class="marker-circle"/>
+                            <text x="520" y="215" text-anchor="middle" font-size="10" fill="#1a1a1a">Spain</text>
                         </g>
                         
                         <!-- Italy -->
                         <g class="marker" data-location="italy">
-                            <circle cx="520" cy="125" r="10" class="marker-circle"/>
-                            <text x="520" y="145" text-anchor="middle" font-size="11" fill="#333">Italy</text>
+                            <circle cx="585" cy="238" r="10" class="marker-circle"/>
+                            <text x="585" y="256" text-anchor="middle" font-size="10" fill="#1a1a1a">Italy</text>
                         </g>
                         
-                        <!-- North Africa -->
-                        <g class="marker" data-location="northafrica">
-                            <circle cx="520" cy="220" r="10" class="marker-circle"/>
-                            <text x="520" y="240" text-anchor="middle" font-size="11" fill="#333">N. Africa</text>
+                        <!-- France -->
+                        <g class="marker" data-location="france">
+                            <circle cx="520" cy="210" r="9" class="marker-circle"/>
+                            <text x="520" y="198" text-anchor="middle" font-size="9" fill="#1a1a1a">France</text>
                         </g>
                         
-                        <!-- China -->
-                        <g class="marker" data-location="china">
-                            <circle cx="700" cy="150" r="10" class="marker-circle"/>
-                            <text x="700" y="135" text-anchor="middle" font-size="11" fill="#333">China</text>
+                        <!-- England -->
+                        <g class="marker" data-location="england">
+                            <circle cx="510" cy="195" r="9" class="marker-circle"/>
+                            <text x="510" y="183" text-anchor="middle" font-size="9" fill="#1a1a1a">England</text>
+                        </g>
+                        
+                        <!-- Netherlands -->
+                        <g class="marker" data-location="netherlands">
+                            <circle cx="535" cy="215" r="9" class="marker-circle"/>
+                            <text x="535" y="205" text-anchor="middle" font-size="9" fill="#1a1a1a">Netherlands</text>
+                        </g>
+                        
+                        <!-- Caribbean -->
+                        <g class="marker" data-location="caribbean">
+                            <circle cx="300" cy="285" r="9" class="marker-circle"/>
+                            <text x="300" y="302" text-anchor="middle" font-size="9" fill="#1a1a1a">Caribbean</text>
+                        </g>
+                        
+                        <!-- West Africa -->
+                        <g class="marker" data-location="westafrica">
+                            <circle cx="545" cy="340" r="10" class="marker-circle"/>
+                            <text x="545" y="358" text-anchor="middle" font-size="10" fill="#1a1a1a">W. Africa</text>
                         </g>
                         
                         <!-- India -->
                         <g class="marker" data-location="india">
-                            <circle cx="700" cy="210" r="10" class="marker-circle"/>
-                            <text x="700" y="230" text-anchor="middle" font-size="11" fill="#333">India</text>
+                            <circle cx="790" cy="315" r="10" class="marker-circle"/>
+                            <text x="790" y="300" text-anchor="middle" font-size="10" fill="#1a1a1a">India (Goa)</text>
+                        </g>
+                        
+                        <!-- China -->
+                        <g class="marker" data-location="china">
+                            <circle cx="860" cy="270" r="10" class="marker-circle"/>
+                            <text x="860" y="255" text-anchor="middle" font-size="10" fill="#1a1a1a">China</text>
+                        </g>
+                        
+                        <!-- Japan -->
+                        <g class="marker" data-location="japan">
+                            <circle cx="990" cy="255" r="10" class="marker-circle"/>
+                            <text x="990" y="240" text-anchor="middle" font-size="10" fill="#1a1a1a">Japan</text>
+                        </g>
+                        
+                        <!-- North America -->
+                        <g class="marker" data-location="northamerica">
+                            <circle cx="270" cy="230" r="9" class="marker-circle"/>
+                            <text x="270" y="215" text-anchor="middle" font-size="9" fill="#1a1a1a">N. America</text>
+                        </g>
+                        
+                        <!-- Brazil -->
+                        <g class="marker" data-location="brazil">
+                            <circle cx="300" cy="380" r="10" class="marker-circle"/>
+                            <text x="300" y="398" text-anchor="middle" font-size="10" fill="#1a1a1a">Brazil</text>
                         </g>
                     </svg>
                 </div>
                 
                 <div class="legend">
-                    <h3>Legend - Spread by Century</h3>
+                    <h3>Legend - Spread by Time Period</h3>
+                    <div class="legend-item">
+                        <div class="legend-color legend-dashed"></div>
+                        <span><strong>Pre-Columbian</strong> - Before 1500s (domestication & regional spread)</span>
+                    </div>
                     <div class="legend-item">
                         <div class="legend-color" style="background: #e03131;"></div>
-                        <span>1500s - Initial Spanish contact and European introduction</span>
+                        <span><strong>1500s (Red)</strong> - Initial European contact & early spread</span>
                     </div>
                     <div class="legend-item">
                         <div class="legend-color" style="background: #1971c2;"></div>
-                        <span>1600s - Spread to Mediterranean and North Africa</span>
+                        <span><strong>1600s (Blue)</strong> - Expansion to colonies & Africa</span>
                     </div>
                     <div class="legend-item">
                         <div class="legend-color" style="background: #2f9e44;"></div>
-                        <span>1700s - Arrival in Asia (India, China)</span>
+                        <span><strong>1700s (Green)</strong> - Arrival in East Asia (Japan)</span>
                     </div>
                     <div class="legend-item">
-                        <div class="legend-color" style="background: #ffd700; border: 2px solid #ff6b6b;"></div>
-                        <span>⭐ Origin - Andes Mountains, Peru</span>
+                        <div class="legend-color" style="background: #ffd700; border: 2px solid #ff6b6b; height: 8px; width: 20px;"></div>
+                        <span><strong>⭐ Origin Point</strong> - Andes Mountains (Peru/Ecuador)</span>
                     </div>
                 </div>
             </div>
             
             <div class="info-panel" id="infoPanel">
                 <div class="default-info">
-                    <h2>👆 Click a location</h2>
-                    <p>Select any marker on the map to learn about the tomato's impact in that region, including labor practices, cultural influences, and environmental effects.</p>
+                    <h2>👆 Click a Location</h2>
+                    <p>Select any marker on the map to discover how tomatoes arrived in that region and learn about:</p>
+                    <ul style="text-align: left; margin-top: 15px; margin-left: 30px;">
+                        <li>Time period of arrival</li>
+                        <li>Labor practices used</li>
+                        <li>Cultural integration</li>
+                        <li>Environmental impacts</li>
+                    </ul>
                 </div>
             </div>
         </div>
         
         <div class="timeline">
-            <h2>Timeline of Tomato Spread</h2>
-            <div class="timeline-item timeline-1500s">
-                <span class="timeline-date">~1500-1550s:</span> Spanish conquistadors encounter tomatoes in Peru and Mexico
+            <h2>📅 Timeline of Tomato Spread Across the World</h2>
+            <div class="timeline-item timeline-precolumbian">
+                <span class="timeline-date">Pre-Columbian (Before 1500s):</span> Andes Mountains → Mesoamerica — Tomatoes domesticated and spread through indigenous trade networks
             </div>
             <div class="timeline-item timeline-1500s">
-                <span class="timeline-date">~1540s:</span> Tomatoes arrive in Spain, initially grown as ornamental plants
+                <span class="timeline-date">Early 1500s:</span> Mesoamerica → Spain (Seville) — Spanish explorers bring tomatoes to Europe
             </div>
             <div class="timeline-item timeline-1500s">
-                <span class="timeline-date">~1550-1590s:</span> Spread to Italy, where they begin being used in cooking
+                <span class="timeline-date">1520s-1530s:</span> Spain → Italy (Naples, Genoa) — Italians begin experimenting with tomatoes in cooking
+            </div>
+            <div class="timeline-item timeline-1500s">
+                <span class="timeline-date">Mid-1500s:</span> Spain/Portugal → Caribbean — Tomatoes cultivated on colonial plantations
+            </div>
+            <div class="timeline-item timeline-1500s">
+                <span class="timeline-date">Mid-1500s:</span> Portugal → India (Goa) — Portuguese traders introduce tomatoes to Indian subcontinent
+            </div>
+            <div class="timeline-item timeline-1500s">
+                <span class="timeline-date">Late 1500s:</span> Italy → France, England, Netherlands — Tomatoes spread throughout Western Europe
             </div>
             <div class="timeline-item timeline-1600s">
-                <span class="timeline-date">~1600-1650s:</span> Introduction to North Africa through Mediterranean trade
+                <span class="timeline-date">16th-17th Century:</span> Spain/Portugal → West Africa — Portuguese traders bring tomatoes to coastal West Africa
             </div>
-            <div class="timeline-item timeline-1500s">
-                <span class="timeline-date">~1560-1600s:</span> Arrival in China via Portuguese and Spanish traders
+            <div class="timeline-item timeline-1600s">
+                <span class="timeline-date">17th Century:</span> Portugal/Netherlands → China (Macau, Canton) — European trade introduces tomatoes to China
+            </div>
+            <div class="timeline-item timeline-1600s">
+                <span class="timeline-date">17th Century:</span> Spain/Portugal → Brazil & North America — Colonial expansion spreads tomatoes to the Americas
             </div>
             <div class="timeline-item timeline-1700s">
-                <span class="timeline-date">~1700s:</span> Widespread cultivation in India, integration into local cuisine
+                <span class="timeline-date">Late 17th-18th Century:</span> Netherlands → Japan (Nagasaki) — Dutch East India Company brings tomatoes to Japan
             </div>
         </div>
     </div>
     
     <script>
         const locations = {
-            origin: {
-                name: "Peru/Andes Mountains (Origin)",
-                date: "Pre-Columbian - Present",
-                labor: "Originally cultivated by indigenous peoples using traditional, communal agricultural practices. Free labor by local communities who developed sophisticated farming techniques over centuries.",
-                cultural: "The tomato was domesticated here thousands of years ago. It was a staple food and held cultural significance in indigenous cuisine, used in sauces and stews. The Aztecs called it 'tomatl.'",
-                environmental: "Native to the region, tomatoes thrived in the diverse microclimates of the Andes. Indigenous farming practices were sustainable and worked in harmony with the local ecosystem.",
+            andes: {
+                name: "Andes Mountains (Peru/Ecuador)",
+                date: "Pre-Columbian Origin",
+                labor: "Domestication of wild tomatoes by indigenous peoples using traditional, communal agricultural practices. Entirely free labor by local communities who developed sophisticated farming techniques over millennia.",
+                cultural: "The tomato was first domesticated in this region thousands of years ago. Indigenous peoples cultivated tomatoes in small gardens, integrating them into local cuisine and culture. This was the birthplace of the cultivated tomato as we know it today.",
+                environmental: "Minimal environmental impact. Tomatoes were native to the region and indigenous farming practices were sustainable, working in harmony with the local Andean ecosystem and diverse microclimates.",
                 century: "origin"
             },
+            mesoamerica: {
+                name: "Mesoamerica (Mexico)",
+                date: "Pre-Columbian (Before 1500s)",
+                labor: "Grown by Native Americans in small gardens using free labor. Indigenous agricultural systems integrated tomatoes into milpa farming alongside corn, beans, and squash.",
+                cultural: "Tomatoes became essential to Mesoamerican cuisine. The Aztecs called them 'tomatl' and used them extensively in sauces and cooking. They were a staple food with deep cultural significance in local diets and traditions.",
+                environmental: "Minimal environmental impact. Tomatoes were cultivated sustainably using traditional indigenous farming methods that maintained soil health and biodiversity.",
+                century: "precolumbian"
+            },
             spain: {
-                name: "Spain",
-                date: "~1540s-1550s",
-                labor: "Initially grown in monastery gardens and wealthy estates using both free labor (gardeners) and some forced labor on larger agricultural estates. Early cultivation was primarily ornamental.",
-                cultural: "Initially met with suspicion due to resemblance to poisonous nightshade plants. Slowly adopted into Spanish cuisine by the late 1500s. Eventually became integral to dishes like gazpacho.",
-                environmental: "Adapted well to Mediterranean climate. Required irrigation in drier regions. Introduction of a New World crop diversified Spanish agriculture.",
+                name: "Spain (Seville)",
+                date: "Early 1500s",
+                labor: "Introduced by Spanish explorers and conquistadors. Initially grown as ornamental or experimental plants in gardens using free labor. Small-scale cultivation by gardeners and on estates.",
+                cultural: "Met with initial suspicion due to resemblance to poisonous nightshade plants. Slowly integrated into European diets over time. Eventually became fundamental to Spanish cuisine, including dishes like gazpacho.",
+                environmental: "Minor environmental impact. Introduced as a new crop species but grown in small quantities initially. Required adaptation to Mediterranean climate with some irrigation needs.",
                 century: "1500s"
             },
             italy: {
-                name: "Italy",
-                date: "~1550-1590s",
-                labor: "Cultivated by peasant farmers and on estates. Mix of free tenant farmers and some forced labor on larger landholdings. Small-scale family farming became common.",
-                cultural: "Italians were among the first Europeans to fully embrace tomatoes in cooking. By the 1600s, tomatoes became essential in Italian cuisine, leading to iconic dishes like pasta al pomodoro and pizza marinara.",
-                environmental: "Thrived in Southern Italian climate. Became a rotation crop helping soil health. Different varieties were developed for various regions (Roma, San Marzano).",
+                name: "Italy (Naples, Genoa)",
+                date: "1520s-1530s",
+                labor: "Italians experimented with tomatoes in gardens and early cooking. Free labor predominantly used by small farmers and gardeners. Mixed cultivation on peasant farms and estates.",
+                cultural: "Italians were among the first Europeans to fully embrace tomatoes. Began using them in sauces and for decorative purposes. By the 1600s, tomatoes became integral to Italian cuisine, leading to iconic dishes like pasta pomodoro and pizza.",
+                environmental: "Minor environmental impact. Tomatoes adapted well to Southern Italian climate. Became part of crop rotation, helping maintain soil health. Different regional varieties developed (Roma, San Marzano).",
                 century: "1500s"
             },
-            northafrica: {
-                name: "North Africa",
-                date: "~1600-1650s",
-                labor: "Cultivated by local farmers, often using traditional irrigation systems. Mix of free smallholder farmers and labor on larger estates, some under Ottoman control.",
-                cultural: "Quickly integrated into North African cuisine, becoming essential in dishes like shakshuka, tagines, and couscous preparations. Complemented existing spice traditions.",
-                environmental: "Required careful water management in arid regions. Grown in oases and along Mediterranean coast. Added variety to crop rotation in irrigated areas.",
+            france: {
+                name: "France (Paris, South France)",
+                date: "Late 1500s",
+                labor: "Garden cultivation using free labor. Grown by farmers and in estate gardens. Small-scale production focused on experimentation with the new crop.",
+                cultural: "Added to European cuisine gradually. Initially viewed with suspicion but eventually incorporated into soups and stews. Became part of French culinary tradition over subsequent centuries.",
+                environmental: "Minimal environmental impact. Grown in small quantities in gardens. Adapted to French climate, particularly in southern regions where conditions were more favorable.",
+                century: "1500s"
+            },
+            england: {
+                name: "England (London, South England)",
+                date: "Late 1500s - Early 1600s",
+                labor: "Introduced in gardens primarily as ornamental plants. Free labor by gardeners and estate workers. Very limited agricultural cultivation initially.",
+                cultural: "Initially grown as decorative plants due to suspicion about edibility. Eventually used in soups and stews. English adoption was slower than in Mediterranean countries. Improved nutrition slightly when finally accepted.",
+                environmental: "Minimal environmental impact. Grown mainly in protected gardens. English climate was less ideal than Mediterranean regions, limiting early cultivation success.",
                 century: "1600s"
             },
-            china: {
-                name: "China",
-                date: "~1560-1600s",
-                labor: "Primarily grown by peasant farmers on small plots. Labor was predominantly free, though agricultural work was taxed. Family-based farming practices dominated.",
-                cultural: "Initially slow adoption, but gradually incorporated into Chinese cuisine. Used in stir-fries, soups, and sauces. Became particularly popular in southern provinces.",
-                environmental: "Adapted to various Chinese climates, from subtropical south to temperate regions. Required less water than rice, providing alternative crop. Enhanced agricultural diversity.",
+            netherlands: {
+                name: "Netherlands (Amsterdam)",
+                date: "Late 16th Century",
+                labor: "Grown in gardens using free labor. Dutch horticulturists and gardeners cultivated tomatoes as part of botanical experimentation and trade networks.",
+                cultural: "Adopted for culinary experimentation. The Dutch, as major trading power, played a role in spreading tomatoes to other regions. Gradually integrated into local cooking traditions.",
+                environmental: "Minimal environmental impact. Grown in controlled garden settings. Dutch greenhouse techniques later helped tomato cultivation in northern climates.",
                 century: "1500s"
             },
+            caribbean: {
+                name: "Caribbean (Cuba, Puerto Rico, Hispaniola)",
+                date: "16th Century",
+                labor: "Cultivated in small gardens on plantations. Initially used mostly free or indigenous labor, though plantation systems increasingly relied on enslaved labor for major crops (tomatoes remained secondary).",
+                cultural: "Used in local dishes, blending Spanish colonial and indigenous cooking traditions. Became part of Caribbean cuisine, though not as central as in European traditions.",
+                environmental: "Minor impact. Increased crop diversity on islands. Grown alongside other colonial crops, contributing to changed agricultural landscapes from indigenous systems.",
+                century: "1500s"
+            },
+            westafrica: {
+                name: "West Africa (Ghana, Senegal, Nigeria)",
+                date: "16th-17th Century",
+                labor: "Brought by Portuguese traders. Grown in small plots by local free farmers using traditional agricultural methods. Not part of large plantation systems.",
+                cultural: "Quickly integrated into local West African cuisine, becoming essential in stews, sauces, and regional dishes. Tomatoes complemented existing cooking traditions and became a staple ingredient.",
+                environmental: "Minimal impact. Grown by local farmers in small plots. Added diversity to West African agriculture without major disruption to existing farming systems.",
+                century: "1600s"
+            },
             india: {
-                name: "India",
-                date: "~1700s",
-                labor: "Cultivated primarily by small-scale farmers using family labor. Some larger estates existed under various rulers. Generally free labor, though agricultural conditions varied by region.",
-                cultural: "Rapidly integrated into Indian cuisine, becoming essential in curries, chutneys, and vegetable dishes. The Hindi word 'tamatar' derives from the Spanish 'tomate.' Now indispensable in Indian cooking.",
-                environmental: "Thrived in diverse Indian climates from Kerala to Punjab. Monsoon rains provided natural irrigation. Became important crop for small farmers, fitting well into existing agricultural systems.",
+                name: "India (Goa)",
+                date: "16th Century",
+                labor: "Introduced by Portuguese traders through Goa. Cultivated in gardens using free labor. Small-scale farming by local farmers and in colonial settlements.",
+                cultural: "Rapidly adopted and integrated into Indian cooking. Became essential in curries, chutneys, and vegetable dishes. The Hindi word 'tamatar' derives from Spanish 'tomate.' Now indispensable in Indian cuisine across all regions.",
+                environmental: "Minimal environmental impact. Thrived in diverse Indian climates. Fit well into existing agricultural systems. Monsoon rains provided natural irrigation in many areas.",
+                century: "1500s"
+            },
+            china: {
+                name: "China (Macau, Canton)",
+                date: "17th Century",
+                labor: "Brought via European trade routes (Portuguese and Dutch). Small-scale cultivation using free labor by peasant farmers on family plots.",
+                cultural: "Initial adoption was slow but gradually tomatoes were incorporated into Chinese cuisine, particularly in southern provinces. Used in stir-fries, soups, and sauces. Became more popular in modern times.",
+                environmental: "Negligible environmental impact initially. Grown in small quantities. Adapted to various Chinese climates from subtropical south to temperate regions over time.",
+                century: "1600s"
+            },
+            japan: {
+                name: "Japan (Nagasaki)",
+                date: "Late 17th - 18th Century",
+                labor: "Introduced through Dutch East India Company at Nagasaki, Japan's only port open to foreign trade. Grown in small gardens using free labor.",
+                cultural: "Gradual adoption into Japanese cooking. Initially exotic and rare. Eventually incorporated into Japanese cuisine, though integration was slower than in other regions due to limited foreign contact during isolation period.",
+                environmental: "Minimal environmental impact. Grown in small quantities in controlled settings. Adapted to Japanese climate and farming practices over time.",
                 century: "1700s"
+            },
+            northamerica: {
+                name: "North America (Florida, Southern Colonies)",
+                date: "17th Century",
+                labor: "Cultivated in gardens by settlers using free labor. Small-scale production, primarily for personal consumption rather than commercial agriculture.",
+                cultural: "Added to colonial diets gradually. Integration was slow due to European suspicions about tomato safety. Eventually became important in American cuisine, particularly in southern cooking traditions.",
+                environmental: "Minimal environmental impact. Grown in small garden plots. Well-suited to warm southern climates. Became more important crop in later centuries.",
+                century: "1600s"
+            },
+            brazil: {
+                name: "Brazil (Salvador, Recife)",
+                date: "16th-17th Century",
+                labor: "Brought by Portuguese traders and colonists. Grown in gardens using free or smallholder labor. Not a major plantation crop like sugar, so less connected to enslaved labor systems.",
+                cultural: "Integrated into local cooking, blending Portuguese and indigenous Brazilian traditions. Became part of Brazilian cuisine, though less central than in some other regions.",
+                environmental: "Minor environmental impact. Grown in small plots and gardens. Added diversity to Brazilian agriculture. Adapted well to tropical and subtropical Brazilian climates.",
+                century: "1600s"
             }
         };
         
@@ -452,7 +629,7 @@
                 
                 infoPanel.innerHTML = `
                     <h2>${data.name}</h2>
-                    <p style="color: #868e96; margin-bottom: 20px;"><strong>${data.date}</strong></p>
+                    <p class="info-date">📅 ${data.date}</p>
                     
                     <div class="info-section">
                         <h3>👷 Labor Practices</h3>
@@ -469,6 +646,11 @@
                         <p>${data.environmental}</p>
                     </div>
                 `;
+                
+                // Smooth scroll to top of info panel on mobile
+                if (window.innerWidth <= 1200) {
+                    infoPanel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }
             });
         });
     </script>
