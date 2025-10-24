@@ -1,87 +1,476 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Columbian Exchange: Tomatoes</title>
-<style>
-  body { font-family: Arial, sans-serif; text-align: center; background: #f0f0f0; margin: 0; padding: 0; }
-  h1 { margin-top: 20px; }
-  #mapContainer { position: relative; display: inline-block; margin: 20px auto; }
-  #info { position: absolute; top: 10px; left: 10px; background: rgba(255,255,255,0.95); padding: 10px; border-radius: 5px; width: 250px; text-align: left; font-size: 14px; }
-  .marker { position: absolute; width: 12px; height: 12px; border-radius: 50%; cursor: pointer; border: 2px solid black; }
-  .arrow { position: absolute; pointer-events: none; }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Columbian Exchange: Tomatoes</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        h1 {
+            color: #c92a2a;
+            font-size: 2.5em;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .intro {
+            font-size: 1.1em;
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+            color: #555;
+        }
+        
+        .main-content {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .map-container {
+            flex: 1;
+            min-width: 600px;
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            position: relative;
+        }
+        
+        .instructions {
+            background: #fff3cd;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            border-left: 4px solid #ffc107;
+            font-size: 0.95em;
+        }
+        
+        .map-wrapper {
+            position: relative;
+            width: 100%;
+            overflow: auto;
+        }
+        
+        svg {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        
+        .marker {
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        
+        .marker:hover {
+            transform: scale(1.2);
+        }
+        
+        .marker-circle {
+            fill: #c92a2a;
+            stroke: white;
+            stroke-width: 2;
+        }
+        
+        .origin-marker {
+            fill: #ffd700;
+            stroke: #ff6b6b;
+            stroke-width: 3;
+        }
+        
+        .arrow {
+            fill: none;
+            stroke-width: 3;
+            opacity: 0.7;
+            transition: opacity 0.2s;
+        }
+        
+        .arrow:hover {
+            opacity: 1;
+            stroke-width: 4;
+        }
+        
+        .century-1500s { stroke: #e03131; }
+        .century-1600s { stroke: #1971c2; }
+        .century-1700s { stroke: #2f9e44; }
+        
+        .info-panel {
+            flex: 0 0 350px;
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            max-height: 700px;
+            overflow-y: auto;
+        }
+        
+        .info-panel h2 {
+            color: #c92a2a;
+            margin-bottom: 15px;
+            font-size: 1.5em;
+        }
+        
+        .info-section {
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        .info-section:last-child {
+            border-bottom: none;
+        }
+        
+        .info-section h3 {
+            color: #495057;
+            margin-bottom: 8px;
+            font-size: 1.1em;
+        }
+        
+        .info-section p {
+            color: #666;
+            font-size: 0.95em;
+        }
+        
+        .legend {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+        }
+        
+        .legend h3 {
+            font-size: 1em;
+            margin-bottom: 10px;
+            color: #495057;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+            font-size: 0.9em;
+        }
+        
+        .legend-color {
+            width: 30px;
+            height: 3px;
+            margin-right: 10px;
+            border-radius: 2px;
+        }
+        
+        .default-info {
+            text-align: center;
+            color: #868e96;
+            padding: 40px 20px;
+        }
+        
+        .timeline {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        .timeline h2 {
+            color: #c92a2a;
+            margin-bottom: 15px;
+        }
+        
+        .timeline-item {
+            padding: 12px;
+            margin-bottom: 10px;
+            border-left: 4px solid #e9ecef;
+            background: #f8f9fa;
+            border-radius: 4px;
+        }
+        
+        .timeline-1500s { border-left-color: #e03131; }
+        .timeline-1600s { border-left-color: #1971c2; }
+        .timeline-1700s { border-left-color: #2f9e44; }
+        
+        .timeline-date {
+            font-weight: bold;
+            color: #495057;
+        }
+        
+        @media (max-width: 1024px) {
+            .main-content {
+                flex-direction: column;
+            }
+            
+            .map-container {
+                min-width: 100%;
+            }
+            
+            .info-panel {
+                flex: 1;
+            }
+        }
+    </style>
 </head>
 <body>
-
-<h1>Columbian Exchange: Tomatoes</h1>
-<div id="mapContainer">
-  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/80/World_map_-_low_resolution.svg/1200px-World_map_-_low_resolution.svg.png" alt="World Map" id="worldMap">
-  <div id="info">Click a marker to see details.</div>
-</div>
-
-<script>
-// Map image dimensions (adjust if using a different image)
-const mapWidth = 1200;
-const mapHeight = 600;
-
-// Container and info div
-const container = document.getElementById('mapContainer');
-const infoBox = document.getElementById('info');
-
-// Define markers with x/y positions (percentage of width/height) and info
-const markers = [
-  { name:"Andes Mountains, Peru", x:0.23, y:0.70, color:"red", info:"Origin of wild tomato. Labor: free farmers; small gardens. Cultural: starting point. Environment: minimal impact." },
-  { name:"Mexico", x:0.28, y:0.63, color:"red", info:"Domesticated tomato. Labor: free farmers. Cultural: local cooking. Environment: small-scale." },
-  { name:"Spain", x:0.50, y:0.48, color:"red", info:"Introduced by Spanish explorers. Labor: small gardens. Cultural: culinary experimentation. Environment: minimal impact." },
-  { name:"Italy", x:0.54, y:0.50, color:"red", info:"1520s–1530s, tomato used in sauces and decorative gardens. Labor: free farmers. Cultural: Italian cuisine begins." },
-  { name:"France", x:0.57, y:0.48, color:"red", info:"Late 1500s, grown in gardens and for stews. Labor: free farmers. Cultural: European cuisine." },
-  { name:"England", x:0.60, y:0.45, color:"red", info:"Late 1500s–1600s, soups and stews. Labor: free farmers. Cultural: nutrition improvement." },
-  { name:"West Africa", x:0.48, y:0.60, color:"blue", info:"16th–17th century, Portuguese trade introduction. Labor: small plots. Cultural: local diet. Environment: minimal." },
-  { name:"India (Goa)", x:0.74, y:0.53, color:"red", info:"16th century, Portuguese introduction. Labor: small farms. Cultural: cooking. Environment: minimal." },
-  { name:"China", x:0.88, y:0.48, color:"blue", info:"17th century, European trade. Cultural: culinary adoption." },
-  { name:"Japan", x:0.92, y:0.46, color:"green", info:"Late 17th–18th century, Dutch trade. Cultural adoption." },
-  { name:"Caribbean", x:0.31, y:0.67, color:"red", info:"16th century, Spanish introduction. Small gardens, minimal impact." },
-  { name:"North America (Florida)", x:0.33, y:0.61, color:"blue", info:"17th century, European settlers. Small-scale cultivation." },
-  { name:"Brazil", x:0.35, y:0.73, color:"blue", info:"16th–17th century, Portuguese trade. Gardens, minimal environmental impact." }
-];
-
-// Create marker elements
-markers.forEach(m => {
-  const el = document.createElement('div');
-  el.className = 'marker';
-  el.style.backgroundColor = m.color;
-  el.style.left = `calc(${m.x * 100}% - 6px)`;
-  el.style.top = `calc(${m.y * 100}% - 6px)`;
-  el.addEventListener('click', () => { infoBox.innerHTML = `<strong>${m.name}</strong><br>${m.info}`; });
-  container.appendChild(el);
-});
-
-// Optional: draw simple arrows between origin and spread points
-// Only works with basic divs/lines
-markers.forEach(m => {
-  if(m.name !== "Andes Mountains, Peru") {
-    const line = document.createElement('div');
-    line.className = 'arrow';
-    const startX = 0.23 * mapWidth;
-    const startY = 0.70 * mapHeight;
-    const endX = m.x * mapWidth;
-    const endY = m.y * mapHeight;
-    const length = Math.hypot(endX-startX, endY-startY);
-    line.style.width = `${length}px`;
-    line.style.height = '2px';
-    line.style.backgroundColor = m.color;
-    line.style.position = 'absolute';
-    line.style.left = `${startX}px`;
-    line.style.top = `${startY}px`;
-    const angle = Math.atan2(endY-startY, endX-startX) * (180/Math.PI);
-    line.style.transformOrigin = '0 0';
-    line.style.transform = `rotate(${angle}deg)`;
-    container.appendChild(line);
-  }
-});
-</script>
-
+    <div class="container">
+        <header>
+            <h1>🍅 The Columbian Exchange: Tomatoes</h1>
+            <p class="intro">
+                The tomato, originally domesticated in the Andes Mountains of Peru and Mexico, became one of the most 
+                important crops exchanged during the Columbian Exchange. After Spanish conquistadors encountered this 
+                vibrant fruit in the 16th century, it spread across Europe, Asia, and Africa, transforming cuisines 
+                and agriculture worldwide. Today, tomatoes are integral to Italian, Spanish, Indian, and countless 
+                other culinary traditions.
+            </p>
+        </header>
+        
+        <div class="main-content">
+            <div class="map-container">
+                <div class="instructions">
+                    <strong>Instructions:</strong> Click on any marker to learn about labor practices, cultural impacts, 
+                    and environmental effects in that region. Arrows are color-coded by century of arrival.
+                </div>
+                
+                <div class="map-wrapper">
+                    <svg viewBox="0 0 1000 500" id="worldMap">
+                        <!-- Ocean background -->
+                        <rect width="1000" height="500" fill="#e7f5fe"/>
+                        
+                        <!-- Simplified continents -->
+                        <!-- North America -->
+                        <path d="M 50,80 L 150,60 L 200,70 L 250,90 L 280,120 L 270,180 L 240,200 L 200,210 L 160,200 L 120,180 L 80,140 Z" fill="#d4e9d7" stroke="#74c0fc" stroke-width="1"/>
+                        
+                        <!-- South America -->
+                        <path d="M 200,240 L 240,250 L 260,280 L 270,320 L 260,360 L 240,380 L 220,370 L 210,340 L 200,300 L 190,260 Z" fill="#d4e9d7" stroke="#74c0fc" stroke-width="1"/>
+                        
+                        <!-- Europe -->
+                        <path d="M 450,90 L 520,80 L 560,95 L 550,130 L 520,140 L 480,135 L 460,115 Z" fill="#d4e9d7" stroke="#74c0fc" stroke-width="1"/>
+                        
+                        <!-- Africa -->
+                        <path d="M 480,160 L 530,155 L 560,180 L 570,230 L 560,280 L 530,310 L 500,300 L 480,270 L 470,220 L 475,180 Z" fill="#d4e9d7" stroke="#74c0fc" stroke-width="1"/>
+                        
+                        <!-- Asia -->
+                        <path d="M 600,80 L 700,70 L 800,85 L 850,110 L 860,150 L 840,180 L 780,190 L 720,180 L 680,160 L 650,140 L 620,110 Z" fill="#d4e9d7" stroke="#74c0fc" stroke-width="1"/>
+                        
+                        <!-- India subcontinent -->
+                        <path d="M 680,180 L 720,185 L 730,220 L 720,250 L 690,240 L 680,210 Z" fill="#d4e9d7" stroke="#74c0fc" stroke-width="1"/>
+                        
+                        <!-- Arrows showing spread (will be added dynamically) -->
+                        <defs>
+                            <marker id="arrowhead-red" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+                                <polygon points="0 0, 10 3, 0 6" fill="#e03131" />
+                            </marker>
+                            <marker id="arrowhead-blue" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+                                <polygon points="0 0, 10 3, 0 6" fill="#1971c2" />
+                            </marker>
+                            <marker id="arrowhead-green" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+                                <polygon points="0 0, 10 3, 0 6" fill="#2f9e44" />
+                            </marker>
+                        </defs>
+                        
+                        <!-- Spread arrows -->
+                        <path class="arrow century-1500s" d="M 230,290 Q 350,200 490,120" marker-end="url(#arrowhead-red)" />
+                        <path class="arrow century-1500s" d="M 490,120 Q 580,140 700,150" marker-end="url(#arrowhead-red)" />
+                        <path class="arrow century-1600s" d="M 490,120 Q 510,180 520,220" marker-end="url(#arrowhead-blue)" />
+                        <path class="arrow century-1700s" d="M 700,150 Q 710,170 700,210" marker-end="url(#arrowhead-green)" />
+                        
+                        <!-- Markers -->
+                        <!-- Origin: Andes/Peru -->
+                        <g class="marker" data-location="origin">
+                            <circle cx="230" cy="290" r="12" class="marker-circle origin-marker"/>
+                            <text x="230" y="310" text-anchor="middle" font-size="12" fill="#333">Peru/Andes</text>
+                        </g>
+                        
+                        <!-- Spain -->
+                        <g class="marker" data-location="spain">
+                            <circle cx="490" cy="120" r="10" class="marker-circle"/>
+                            <text x="490" y="105" text-anchor="middle" font-size="11" fill="#333">Spain</text>
+                        </g>
+                        
+                        <!-- Italy -->
+                        <g class="marker" data-location="italy">
+                            <circle cx="520" cy="125" r="10" class="marker-circle"/>
+                            <text x="520" y="145" text-anchor="middle" font-size="11" fill="#333">Italy</text>
+                        </g>
+                        
+                        <!-- North Africa -->
+                        <g class="marker" data-location="northafrica">
+                            <circle cx="520" cy="220" r="10" class="marker-circle"/>
+                            <text x="520" y="240" text-anchor="middle" font-size="11" fill="#333">N. Africa</text>
+                        </g>
+                        
+                        <!-- China -->
+                        <g class="marker" data-location="china">
+                            <circle cx="700" cy="150" r="10" class="marker-circle"/>
+                            <text x="700" y="135" text-anchor="middle" font-size="11" fill="#333">China</text>
+                        </g>
+                        
+                        <!-- India -->
+                        <g class="marker" data-location="india">
+                            <circle cx="700" cy="210" r="10" class="marker-circle"/>
+                            <text x="700" y="230" text-anchor="middle" font-size="11" fill="#333">India</text>
+                        </g>
+                    </svg>
+                </div>
+                
+                <div class="legend">
+                    <h3>Legend - Spread by Century</h3>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: #e03131;"></div>
+                        <span>1500s - Initial Spanish contact and European introduction</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: #1971c2;"></div>
+                        <span>1600s - Spread to Mediterranean and North Africa</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: #2f9e44;"></div>
+                        <span>1700s - Arrival in Asia (India, China)</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: #ffd700; border: 2px solid #ff6b6b;"></div>
+                        <span>⭐ Origin - Andes Mountains, Peru</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="info-panel" id="infoPanel">
+                <div class="default-info">
+                    <h2>👆 Click a location</h2>
+                    <p>Select any marker on the map to learn about the tomato's impact in that region, including labor practices, cultural influences, and environmental effects.</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="timeline">
+            <h2>Timeline of Tomato Spread</h2>
+            <div class="timeline-item timeline-1500s">
+                <span class="timeline-date">~1500-1550s:</span> Spanish conquistadors encounter tomatoes in Peru and Mexico
+            </div>
+            <div class="timeline-item timeline-1500s">
+                <span class="timeline-date">~1540s:</span> Tomatoes arrive in Spain, initially grown as ornamental plants
+            </div>
+            <div class="timeline-item timeline-1500s">
+                <span class="timeline-date">~1550-1590s:</span> Spread to Italy, where they begin being used in cooking
+            </div>
+            <div class="timeline-item timeline-1600s">
+                <span class="timeline-date">~1600-1650s:</span> Introduction to North Africa through Mediterranean trade
+            </div>
+            <div class="timeline-item timeline-1500s">
+                <span class="timeline-date">~1560-1600s:</span> Arrival in China via Portuguese and Spanish traders
+            </div>
+            <div class="timeline-item timeline-1700s">
+                <span class="timeline-date">~1700s:</span> Widespread cultivation in India, integration into local cuisine
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        const locations = {
+            origin: {
+                name: "Peru/Andes Mountains (Origin)",
+                date: "Pre-Columbian - Present",
+                labor: "Originally cultivated by indigenous peoples using traditional, communal agricultural practices. Free labor by local communities who developed sophisticated farming techniques over centuries.",
+                cultural: "The tomato was domesticated here thousands of years ago. It was a staple food and held cultural significance in indigenous cuisine, used in sauces and stews. The Aztecs called it 'tomatl.'",
+                environmental: "Native to the region, tomatoes thrived in the diverse microclimates of the Andes. Indigenous farming practices were sustainable and worked in harmony with the local ecosystem.",
+                century: "origin"
+            },
+            spain: {
+                name: "Spain",
+                date: "~1540s-1550s",
+                labor: "Initially grown in monastery gardens and wealthy estates using both free labor (gardeners) and some forced labor on larger agricultural estates. Early cultivation was primarily ornamental.",
+                cultural: "Initially met with suspicion due to resemblance to poisonous nightshade plants. Slowly adopted into Spanish cuisine by the late 1500s. Eventually became integral to dishes like gazpacho.",
+                environmental: "Adapted well to Mediterranean climate. Required irrigation in drier regions. Introduction of a New World crop diversified Spanish agriculture.",
+                century: "1500s"
+            },
+            italy: {
+                name: "Italy",
+                date: "~1550-1590s",
+                labor: "Cultivated by peasant farmers and on estates. Mix of free tenant farmers and some forced labor on larger landholdings. Small-scale family farming became common.",
+                cultural: "Italians were among the first Europeans to fully embrace tomatoes in cooking. By the 1600s, tomatoes became essential in Italian cuisine, leading to iconic dishes like pasta al pomodoro and pizza marinara.",
+                environmental: "Thrived in Southern Italian climate. Became a rotation crop helping soil health. Different varieties were developed for various regions (Roma, San Marzano).",
+                century: "1500s"
+            },
+            northafrica: {
+                name: "North Africa",
+                date: "~1600-1650s",
+                labor: "Cultivated by local farmers, often using traditional irrigation systems. Mix of free smallholder farmers and labor on larger estates, some under Ottoman control.",
+                cultural: "Quickly integrated into North African cuisine, becoming essential in dishes like shakshuka, tagines, and couscous preparations. Complemented existing spice traditions.",
+                environmental: "Required careful water management in arid regions. Grown in oases and along Mediterranean coast. Added variety to crop rotation in irrigated areas.",
+                century: "1600s"
+            },
+            china: {
+                name: "China",
+                date: "~1560-1600s",
+                labor: "Primarily grown by peasant farmers on small plots. Labor was predominantly free, though agricultural work was taxed. Family-based farming practices dominated.",
+                cultural: "Initially slow adoption, but gradually incorporated into Chinese cuisine. Used in stir-fries, soups, and sauces. Became particularly popular in southern provinces.",
+                environmental: "Adapted to various Chinese climates, from subtropical south to temperate regions. Required less water than rice, providing alternative crop. Enhanced agricultural diversity.",
+                century: "1500s"
+            },
+            india: {
+                name: "India",
+                date: "~1700s",
+                labor: "Cultivated primarily by small-scale farmers using family labor. Some larger estates existed under various rulers. Generally free labor, though agricultural conditions varied by region.",
+                cultural: "Rapidly integrated into Indian cuisine, becoming essential in curries, chutneys, and vegetable dishes. The Hindi word 'tamatar' derives from the Spanish 'tomate.' Now indispensable in Indian cooking.",
+                environmental: "Thrived in diverse Indian climates from Kerala to Punjab. Monsoon rains provided natural irrigation. Became important crop for small farmers, fitting well into existing agricultural systems.",
+                century: "1700s"
+            }
+        };
+        
+        const markers = document.querySelectorAll('.marker');
+        const infoPanel = document.getElementById('infoPanel');
+        
+        markers.forEach(marker => {
+            marker.addEventListener('click', function() {
+                const location = this.getAttribute('data-location');
+                const data = locations[location];
+                
+                infoPanel.innerHTML = `
+                    <h2>${data.name}</h2>
+                    <p style="color: #868e96; margin-bottom: 20px;"><strong>${data.date}</strong></p>
+                    
+                    <div class="info-section">
+                        <h3>👷 Labor Practices</h3>
+                        <p>${data.labor}</p>
+                    </div>
+                    
+                    <div class="info-section">
+                        <h3>🎭 Cultural Impact</h3>
+                        <p>${data.cultural}</p>
+                    </div>
+                    
+                    <div class="info-section">
+                        <h3>🌍 Environmental Impact</h3>
+                        <p>${data.environmental}</p>
+                    </div>
+                `;
+            });
+        });
+    </script>
 </body>
 </html>
